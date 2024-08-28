@@ -8,9 +8,9 @@ hero:
   image:
     src: /logo-big.svg
     alt: Inflect logo
-  tagline: Inflect is a Kafka-compatible stream processing framework that simplifies stateless event transformations between microservices in an event-driven architecture
+  tagline: Inflect is an open-source stream processing framework for Kafka that simplifies stateless event transformations between microservices in an event-driven architecture
   actions:
-    - theme: alt
+    - theme: brand
       text: Read the Case Study
       link: '/introduction'
     - theme: alt
