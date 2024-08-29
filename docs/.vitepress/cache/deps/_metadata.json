@@ -1,25 +1,31 @@
 {
-  "hash": "d4e4a822",
+  "hash": "10c73182",
   "configHash": "c7df18ca",
-  "lockfileHash": "6310ddce",
-  "browserHash": "6ab3f314",
+  "lockfileHash": "5ecced7c",
+  "browserHash": "54879d30",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "054b04f3",
+      "fileHash": "cb9d9301",
       "needsInterop": false
     },
     "vitepress > @vue/devtools-api": {
       "src": "../../../../node_modules/@vue/devtools-api/dist/index.js",
       "file": "vitepress___@vue_devtools-api.js",
-      "fileHash": "06a6c9a8",
+      "fileHash": "9fe7bafa",
       "needsInterop": false
     },
     "vitepress > @vueuse/core": {
       "src": "../../../../node_modules/@vueuse/core/index.mjs",
       "file": "vitepress___@vueuse_core.js",
-      "fileHash": "d1e864f0",
+      "fileHash": "b87f7018",
+      "needsInterop": false
+    },
+    "markdown-it-image-figures": {
+      "src": "../../../../node_modules/markdown-it-image-figures/dist/markdown-it-images-figures.mjs",
+      "file": "markdown-it-image-figures.js",
+      "fileHash": "6442d7b8",
       "needsInterop": false
     }
   },

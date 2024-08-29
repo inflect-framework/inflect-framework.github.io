@@ -4,6 +4,7 @@ export default {
   lang: 'en-US',
   cleanUrls: true,
   ignoreDeadLinks: true,
+  appearance: 'force-dark',
   
   themeConfig: {
     logo: "/logo.svg",

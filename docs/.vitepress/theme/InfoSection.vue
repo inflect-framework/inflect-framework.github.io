@@ -12,7 +12,13 @@
             :class="{ 'reverse': index % 2 !== 0 }" 
           >
             <div class="text-content">
-              <h3>{{ item.title }}</h3>
+              <h3 :style="{
+                color: 'transparent',
+                backgroundImage: '-webkit-linear-gradient(120deg, #3aee9a, #54C4B2)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                display: 'inline-block'
+              }">{{ item.title }}</h3>
               <p>{{ item.description }}</p>
             </div>
             <div class="image-content">
@@ -20,6 +26,10 @@
             </div>
           </div>
         </div>
+      </div>
+      <!-- New button div -->
+      <div class="case-study-button-container">
+        <a href="/introduction" class="case-study-button">Read the Case Study</a>
       </div>
     </div>
   </div>
@@ -85,6 +95,30 @@ img {
 img:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* New styles for the case study button */
+.case-study-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 7rem;
+}
+.case-study-button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: #32c580b1;
+  color: #F7F7F7;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+
+}
+.case-study-button:hover {
+  background-color: #45CA8Cda;
+  color: #F7F7F7;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
 }
 
 @media (max-width: 1024px) {
