@@ -12,7 +12,10 @@ next:
 ## From Monolith to Microservices
 
 Maintaining, scaling, and evolving an application becomes increasingly difficult as it grows in size and complexity. The challenges of managing a large, monolithic architecture often lead to slower development cycles, increased risk of errors, and difficulty in implementing new features or technologies. This is because in a monolithic architecture, components of the system are often tightly coupled to one another, and so changes to any one part of the system can have far-reaching and sometimes unpredictable consequences.
-![Event Table](/diagrams/background/monolith_failure.svg)
+
+<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px; margin-top: 20px;">
+  <img src='/diagrams/background/monolith_failure.svg' alt='Monolithic architecture with failing component leading to system failure'/>
+</div>
 Microservices architectures attempt to solve these issues by dividing a single large, monolithic architecture into several smaller, specialized components that operate independently of one another. Each service can be developed and deployed separately, allowing teams to work in parallel and accelerate their development. Additionally, individual services can be scaled as needed, optimizing resource usage and improving overall system performance. Isolation between services also means that failures in one component are less likely to affect others, making the system more robust as a whole.
 ![Event Table](/diagrams/background/monolith_to_microservice.svg)
 While adopting microservices can increase a system’s flexibility, these components still need to communicate with one another. This inter-service communication introduces its own set of challenges and considerations. If this communication happens synchronously (where one service sends a request to another and waits for a response), services become tightly coupled, leading to potential performance bottlenecks and failures that can cascade throughout the system, undermining the benefits of using a microservices architecture in the first place. For example, if one component sends a message and waits for a response from another component, which has to wait for another component, on and on, then a failure in any one of these components can bring the system to a halt.
@@ -22,7 +25,10 @@ While adopting microservices can increase a system’s flexibility, these compon
 ### Event-Driven Architectures
 
 To address these challenges with communication between microservices, many systems adopt an Event-Driven Architecture (EDA).
-![Event Table](/diagrams/background/simple_EDA.svg)
+
+<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px; margin-top: 20px;">
+  <img src='/diagrams/background/monolith_to_microservice.svg' alt='Monolithic architecture converting to microservices architecture, with individual components communicating using messages'/>
+</div>
 In this model, services communicate through events rather than direct synchronous calls to one another. When an action occurs or a state changes, the affected microservice publishes an event message, which other services can then receive and process.
 ![Event Table](/diagrams/background/microservice_failure.svg)
 This approach significantly reduces coupling between microservices, since services no longer depend directly on each other’s availability or immediate response. And, because services can continue functioning even if other parts of the system are temporarily unavailable, the system can be much more fault tolerant.
@@ -30,7 +36,10 @@ This approach significantly reduces coupling between microservices, since servic
 ### Event Brokers
 
 Event distribution within an EDA can become problematic if each microservice in the EDA has to independently manage intricate logic for things like retrying sending a message or keeping a list of who to send a message to when an event occurs. Event brokers and the publish-subscribe (pub-sub) messaging pattern help solve those problems. Event brokers centralize event distribution logic, abstracting away the complexity of message routing and delivery.
-![Event Table](/diagrams/background/broker_routing.svg)
+
+<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px; margin-top: 20px;">
+  <img src='/diagrams/background/broker_routing.svg' alt='Microservice architecture utilizing a message broker to route messages of different shape to multiple consumers'/>
+</div>
 There are many different event brokers, including both self-hosted and fully-managed solutions. In large, complex production systems, organizations often use Apache Kafka because it is battle tested for high-velocity data flows and has a mature open-source ecosystem.
 
 Under the pub-sub model, if an event occurs, a service _publishes_ the event to a “topic”, which is a named category within the event broker in which logs of events are stored in order, and microservices interested in that event _subscribe_ to the topic. The event broker maintains the messages, allowing subscribers to actively fetch them as needed. This pull-based model is a key characteristic of Kafka, where consumers control when and how they retrieve messages from the broker. Kafka can also be configured to guarantee that messages will be delivered at least once, or exactly once.
@@ -43,20 +52,30 @@ And, many event brokers offer features like message persistence, ensuring events
 ## Challenges in Complex EDAs
 
 Using the pub-sub model doesn’t completely solve the challenge of inter-service communication. Even in pub-sub systems, services still have to send messages to one another in a form that recipients can interpret and process. This can really become an issue when the services evolve. If one microservice changes its message format – either for publishing or consuming – then that can trigger a cascade of necessary adjustments across the system. In a simple scenario with one producer and one consumer, adapting to such changes is straightforward: a change in one component can be easily matched by a corresponding update in the other.
-![Event Table](/diagrams/background/producer_contract_change_single.svg)
+
+<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px; margin-top: 20px;">
+  <img src='/diagrams/background/producer_contract_change_single.svg' alt="Producer sending messages to a consumer. The producer violates the contract by changing message shape, which the consumer cannot accomodate"/>
+</div>
 But in more complex systems, different components often consume messages from the same producer. This is where the real challenges lie. If a change in one consumer’s event contract requires us to make modifications to the producer and in turn to all of the other consumers, then we are right back to being tightly coupled, and we lose the benefits of being able to independently manage these microservices.
-![Event Table](/diagrams/background/producer_contract_change_multiple.svg)
+
+<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px; margin-top: 20px;">
+  <img src='/diagrams/background/producer_contract_change_multiple.svg' alt="The issue caused by contract mismatch between a single producer and consumer is multiplied by the number of consumers for a given topic"/>
+</div>
 
 ## Message transformations in an Event-Driven Architecture
 
 ### Schema Evolution
 
-![Event Table](/diagrams/background/schema_check.svg)
+<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px; margin-top: 20px;">
+  <img src='/diagrams/background/schema_check.svg' alt="Producers sending messages of multiple shape to an event broker. The event broker routes each shape to a supported consumer by current and updated topics and schemas"/>
+</div>
 Teams employ various strategies to maintain loose coupling as microservices evolve. Schema evolution is one approach, wherein teams coordinate to ensure that event producers employ gradual, non-breaking changes, and consumers adapt to these backwards-compatible updated event contracts incrementally over time, rather than having producers introduce breaking changes all at once. Schema evolution is effective for promoting loose coupling when microservices are changing gradually. It allows for smoother transitions when schemas do change, and reduces the risk of system-wide disruptions. However, schema evolution alone often doesn’t suffice in scenarios where the various consumers of a producer’s events differ significantly in their needs, or when microservices are changing rapidly, making incremental adoption of schema changes more difficult.
 
 ### Transformations
 
-![Event Table](/diagrams/background/consumer_change_shape.svg)
+<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px; margin-top: 20px;">
+  <img src='/diagrams/background/consumer_change_shape.svg' alt="A message broker receiving messages in a shape not supported by a consumer. The message broker performs the work of transforming the message before making it available for receipt"/>
+</div>
 The other major solution to this problem is to transform the messages after they are published but before they are consumed. By adding an additional layer between event producers and consumers where the message is transformed to have the format and contents that the consumer needs, developers can keep their microservices decoupled without having to coordinate schema changes across all services. This is ideal for scenarios where we want producers to develop independently of different consumer needs or when rapid changes make schema evolution impractical.
 
 Transformations offer other advantages over plain schema evolution. In addition to changing the format of a message to conform to a particular schema, transformations can be used to do things like enrich events with additional data, cleanse or normalize data, or perform pre-computation so as to optimize event processing when events do arrive at their destination. Transformations can also act as filters, selectively removing events that do not fit certain criteria so as to reduce downstream processing load and only let through relevant data.
@@ -82,7 +101,7 @@ The Kafka ecosystem is rich with open-source stream processing frameworks.
 While these frameworks differ in their specific implementations and features, they are all designed to support complex, stateful processing. And because of the diverse set of requirements for stream processing in production EDAs, large organizations often employ several different stream processing solutions alongside each other, each for different purposes. Stateful and complex stream processing needs are well-covered by existing options. However, we found that for the specific task of performing event transformations in order to keep microservices decoupled as event contracts change, these robust, general-purpose solutions may be overly complex, hard to learn, and resource-intensive. We discuss the reasons for this in the section below.
 
 <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px; margin-top: 20px;">
-  <img src='/diagrams/background/stream_processors.svg' />
+  <img src='/diagrams/background/stream_processors.svg' alt="A list of stream processor providers"/>
 </div>
 
 ### Shortcomings for stateless event transformations
@@ -139,7 +158,7 @@ A framework designed to have a low barrier to entry would enable distributed own
 Supporting Javascript for transformation authoring could address the language constraints imposed by existing JVM-centric frameworks and introduce greater flexibility for teams already familiar with Javascript. This flexibility would reduce cognitive load for teams working on message transformations and enable a wider range of developers to contribute effectively.
 
 <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
-  <img src='/diagrams/background/stream_processor_languages.svg' />
+  <img src='/diagrams/background/stream_processor_languages.svg' alt="A list of stream processors and their supported programming languages"/>
 </div>
 
 #### Reduced Complexity
