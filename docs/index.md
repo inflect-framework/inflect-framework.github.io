@@ -86,7 +86,7 @@ head:
   <TeamMember 
     name="Ben Hancock" 
     tagline="Software Engineer"
-    image="./public/ben_pfp.jpg"
+    image="https://avatars.githubusercontent.com/u/95947317?v=4"
     link="https://www.linkedin.com/in/benhancock-dev/"
   />
 
