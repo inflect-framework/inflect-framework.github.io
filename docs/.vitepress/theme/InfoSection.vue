@@ -55,9 +55,7 @@ export default {
   margin: 0 auto;
   padding: 0 2rem;
 }
-.info-items {
-  margin-top: 4rem;
-}
+
 .info-item-wrapper {
   background-color: var(--vp-c-bg-soft);
   margin-bottom: 2rem;
