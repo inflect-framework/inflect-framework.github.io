@@ -17,7 +17,9 @@ Maintaining, scaling, and evolving an application becomes increasingly difficult
   <img src='/diagrams/background/monolith_failure.svg' alt='Monolithic architecture with failing component leading to system failure'/>
 </div>
 Microservices architectures attempt to solve these issues by dividing a single large, monolithic architecture into several smaller, specialized components that operate independently of one another. Each service can be developed and deployed separately, allowing teams to work in parallel and accelerate their development. Additionally, individual services can be scaled as needed, optimizing resource usage and improving overall system performance. Isolation between services also means that failures in one component are less likely to affect others, making the system more robust as a whole.
+
 ![Event Table](/diagrams/background/monolith_to_microservice.svg)
+
 While adopting microservices can increase a system’s flexibility, these components still need to communicate with one another. This inter-service communication introduces its own set of challenges and considerations. If this communication happens synchronously (where one service sends a request to another and waits for a response), services become tightly coupled, leading to potential performance bottlenecks and failures that can cascade throughout the system, undermining the benefits of using a microservices architecture in the first place. For example, if one component sends a message and waits for a response from another component, which has to wait for another component, on and on, then a failure in any one of these components can bring the system to a halt.
 
 ## Event-Driven Architectures and the pub-sub model
@@ -53,10 +55,11 @@ And, many event brokers offer features like message persistence, ensuring events
 
 Using the pub-sub model doesn’t completely solve the challenge of inter-service communication. Even in pub-sub systems, services still have to send messages to one another in a form that recipients can interpret and process. This can really become an issue when the services evolve. If one microservice changes its message format – either for publishing or consuming – then that can trigger a cascade of necessary adjustments across the system. In a simple scenario with one producer and one consumer, adapting to such changes is straightforward: a change in one component can be easily matched by a corresponding update in the other.
 
-<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px; margin-top: 20px;">
+<!-- <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px; margin-top: 20px;">
   <img src='/diagrams/background/producer_contract_change_single.svg' alt="Producer sending messages to a consumer. The producer violates the contract by changing message shape, which the consumer cannot accomodate"/>
-</div>
-But in more complex systems, different components often consume messages from the same producer. This is where the real challenges lie. If a change in one consumer’s event contract requires us to make modifications to the producer and in turn to all of the other consumers, then we are right back to being tightly coupled, and we lose the benefits of being able to independently manage these microservices.
+</div> -->
+
+But in more complex systems, different components often need to receive messages from the same producer. This is where the real challenges lie. If a change in one consumer’s event contract requires us to make modifications to the producer and in turn to all of the other consumers, then we are right back to being tightly coupled, and we lose the benefits of being able to independently manage these microservices.
 
 <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px; margin-top: 20px;">
   <img src='/diagrams/background/producer_contract_change_multiple.svg' alt="The issue caused by contract mismatch between a single producer and consumer is multiplied by the number of consumers for a given topic"/>
@@ -69,18 +72,20 @@ But in more complex systems, different components often consume messages from th
 <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px; margin-top: 20px;">
   <img src='/diagrams/background/schema_check.svg' alt="Producers sending messages of multiple shape to an event broker. The event broker routes each shape to a supported consumer by current and updated topics and schemas"/>
 </div>
-Teams employ various strategies to maintain loose coupling as microservices evolve. Schema evolution is one approach, wherein teams coordinate to ensure that event producers employ gradual, non-breaking changes, and consumers adapt to these backwards-compatible updated event contracts incrementally over time, rather than having producers introduce breaking changes all at once. Schema evolution is effective for promoting loose coupling when microservices are changing gradually. It allows for smoother transitions when schemas do change, and reduces the risk of system-wide disruptions. However, schema evolution alone often doesn’t suffice in scenarios where the various consumers of a producer’s events differ significantly in their needs, or when microservices are changing rapidly, making incremental adoption of schema changes more difficult.
+Kafka itself does not enforce the shape or contents of messages that enter or leave it, which means that developers must be proactive in ensuring that events sent between services are compatible with eachother. Teams employ various strategies to maintain loose coupling as microservices evolve. Schema evolution is one approach. Schema are versioned interfaces that define the structure and format of data exchanged between microservices. Schema evolution is the approach wherein teams coordinate to ensure that event producers employ gradual, non-breaking changes, and consumers adapt to these backwards-compatible updated event contracts incrementally over time, rather than having producers introduce breaking changes all at once. Schema evolution is effective for promoting loose coupling when microservices are changing gradually. It allows for smoother transitions when schemas do change, and reduces the risk of system-wide disruptions. However, schema evolution alone often doesn’t suffice in scenarios where the various consumers of a producer’s events differ significantly in their needs, or when microservices are changing rapidly, making incremental adoption of schema changes more difficult.
 
 ### Transformations
 
 <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px; margin-top: 20px;">
   <img src='/diagrams/background/consumer_change_shape.svg' alt="A message broker receiving messages in a shape not supported by a consumer. The message broker performs the work of transforming the message before making it available for receipt"/>
 </div>
-The other major solution to this problem is to transform the messages after they are published but before they are consumed. By adding an additional layer between event producers and consumers where the message is transformed to have the format and contents that the consumer needs, developers can keep their microservices decoupled without having to coordinate schema changes across all services. This is ideal for scenarios where we want producers to develop independently of different consumer needs or when rapid changes make schema evolution impractical.
+Another possible solution to this problem is to transform the messages themselves, often after the message is produced but before it is consumed. By adding an additional layer between event producers and consumers where the message is transformed to have the format and contents that the consumer needs, developers can keep their microservices decoupled without having to coordinate schema changes across all services. This is ideal for scenarios where we want producers to develop independently of different consumer needs or when rapid changes make schema evolution impractical.
+
+Additionally, transformations in an EDA serve many purposes besides keeping microservices decoupled — these decoupling transformations are a small piece of the transformations performed in EDAs.
 
 Transformations offer other advantages over plain schema evolution. In addition to changing the format of a message to conform to a particular schema, transformations can be used to do things like enrich events with additional data, cleanse or normalize data, or perform pre-computation so as to optimize event processing when events do arrive at their destination. Transformations can also act as filters, selectively removing events that do not fit certain criteria so as to reduce downstream processing load and only let through relevant data.
 
-In practice, organizations very often utilize a combination of schema evolution and message transformation, applying schema evolution wherever incremental adoption of schema changes is possible, and using message transformations in rapidly changing areas, or when integrating legacy systems which cannot adapt to schema changes.
+In practice, organizations very often utilize a combination of schema evolution and message transformation, applying schema evolution wherever incremental adoption of schema changes is possible, and using message transformations in rapidly changing areas, or when integrating legacy systems which cannot adapt to schema changes. 
 
 Next, we discuss stream processing, the paradigm under which these transformations are carried out in EDAs.
 
@@ -88,7 +93,7 @@ Next, we discuss stream processing, the paradigm under which these transformatio
 
 Performing operations on a constant flow of messages such as the events traveling between microservices is called stream processing. Use cases for stream processing in microservices include real-time analytics, data enrichment, and real-time anomaly detection. And so, there are many general-purpose frameworks for stream processing uses that expand well beyond the transformations we’ve described. These frameworks, including Apache Flink, Apache Spark Streaming, and Kafka Streams, offer robust capabilities for handling complex tasks, including those that involve _stateful processing_. In stateful processing, the accumulated state of previous events influences the way current events are handled. In other words, stateful processing involves processing the stream as a whole, and not just single events at a time. This approach allows for operations that consider the entire stream's context, rather than processing each event in isolation, enabling more sophisticated analyses.
 
-In the next section, we explore existing stream processing frameworks and their suitability for the task of transforming events between microservices for the purpose of decoupling.
+In the next section, we explore existing stream processing frameworks and their suitability for the task of transforming events between microservices.
 
 ## Stream Processing Frameworks
 
@@ -98,7 +103,7 @@ There are many stream processing frameworks, and the most widely used among them
 
 The Kafka ecosystem is rich with open-source stream processing frameworks.
 
-While these frameworks differ in their specific implementations and features, they are all designed to support complex, stateful processing. And because of the diverse set of requirements for stream processing in production EDAs, large organizations often employ several different stream processing solutions alongside each other, each for different purposes. Stateful and complex stream processing needs are well-covered by existing options. However, we found that for the specific task of performing event transformations in order to keep microservices decoupled as event contracts change, these robust, general-purpose solutions may be overly complex, hard to learn, and resource-intensive. We discuss the reasons for this in the section below.
+While these frameworks differ in their specific implementations and features, they are all designed to support complex, stateful processing. And because of the diverse set of requirements for stream processing in production EDAs, large organizations often employ several different stream processing solutions alongside each other, each for different purposes. Stateful and complex stream processing needs are well-covered by existing options. However, we found that for the specific task of performing stateless event transformations, including those meant to keep microservices decoupled as their event contracts change, these robust, general-purpose solutions may be overly complex, hard to learn, and resource-intensive. We discuss the reasons for this in the section below.
 
 <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px; margin-top: 20px;">
   <img src='/diagrams/background/stream_processors.svg' alt="A list of stream processor providers"/>
@@ -120,9 +125,7 @@ Major stream processing frameworks like Streams, Flink, Spark, and Samza require
 
 ##### Challenges with Centralization and Scalability
 
-Because of the broad capabilities they offer, teams with limited resources often choose to consolidate diverse stream processing logic into large stream processing applications. Centralizing the logic in this way means that teams working on stream processing only have to learn one framework to work on any aspect of the system’s stream processing needs, but this comes at the cost of increased code complexity, reduced flexibility, and a return to the monolithic architecture patterns that microservices aim to avoid. By trying to have a single stream processing app or framework be responsible for all of the different stream processing needs of a system, these teams can end up with unwieldy, hard to manage stream processing codebases.
-
-In addition to the problems of trying to address many stream processing concerns in a single framework, it can also become difficult to organize, manage, and understand data flows as the number of transformations grows. This scalability issue compounds the problems of centralized processing logic, as the more pipelines there are transforming and routing events across different parts of the system, the harder it becomes to reason about the system as a whole.
+As the number of transformations performed in an EDA grows, it can become difficult to organize, manage, and understand data flows. The more pipelines there are transforming and routing events across different parts of the system, the harder it becomes to reason about the system as a whole.
 
 ##### Verbose Pipeline Logic
 
@@ -134,14 +137,14 @@ Large, robust stream processing frameworks are designed to manage state and perf
 
 ### The need for a lightweight stream processing framework
 
-The challenges outlined in the previous section point to a gap in the current ecosystem of stream processing frameworks when it comes to the task of transforming messages for decoupling microservices. While existing solutions excel in complex stream processing scenarios, they introduce unnecessary complexities for our specific requirements. This observation led our team to explore the possibility of a more targeted approach.
+The challenges outlined in the previous section point to a gap in the current ecosystem of stream processing frameworks when it comes to the task of performing stateless transformations on Kafka events. While existing solutions excel in complex stream processing scenarios, they introduce unnecessary complexities for our specific requirements. This observation led our team to explore the possibility of a more targeted approach.
 
 #### Use Case
 
 As described above, as organizations transition from monolithic architectures to microservices and adopt event-driven architectures with Apache Kafka, they often encounter a new set of challenges related to service evolution and message compatibility. While EDAs and the pub-sub model offer significant benefits in terms of scalability and loose coupling, they introduce complexities when it comes to changing message formats and structures over time.
 
 In particular, we see a need for an open-source solution specifically tailored for teams that:
-Want to perform stateless transformations for the purpose of maintaining microservice decoupling,
+Want to perform stateless transformations on events,
 Aim to distribute ownership of these transformations across service teams,
 Prefer to use Javascript for authoring transformations due to its accessibility,
 Would benefit from a visual UI for designing and managing transformation pipelines,
@@ -177,4 +180,4 @@ Implementing non-programmatic, UI-based pipeline authoring could mitigate issues
 
 A lightweight solution tailored specifically to stateless message transformations could offer necessary functionality with potentially lower overall resource requirements compared to more comprehensive frameworks. By focusing on essential features for simple transformations, such a framework could provide efficient resource utilization for specific use cases. This approach may be particularly beneficial in scenarios where processing needs are straightforward and the full feature set of larger frameworks isn't required.
 
-These requirements guided us to develop a specialized stream processing framework that addresses the unique challenges of message transformation for the purpose of microservice decoupling. In the following sections, we'll present our solution before delving into the technical details of its implementation, discussing the trade-offs we encountered and the solutions we devised to meet these requirements.
+These requirements guided us to develop a specialized stream processing framework that addresses the unique challenges of stateless transformations on Kafka events. In the following sections, we'll present our solution before delving into the technical details of its implementation, discussing the trade-offs we encountered and the solutions we devised to meet these requirements.

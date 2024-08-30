@@ -12,8 +12,9 @@ next:
 
 ### Prerequisites
 
-- [Docker](https://www.docker.com/) version 24 or higher
-- [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) version 1.28 or higher
+- [Docker](https://www.docker.com/) version 24+
+- [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) version 1.28+
+- [Node](https://nodejs.org/en) version 20.0+ and [npm](https://www.npmjs.com/) version 10+
 - Have your Kafka broker URLs, Kafka API keys, and (optional) Schema Registry API keys ready
 
 ### 1. Clone the stream processor repository
@@ -55,15 +56,15 @@ If you are having issues connecting to the PostgreSQL database from the UI, ensu
 
 ### Creating a pipeline
 
-![Creating a pipeline](/diagrams/demos/create.gif){.center}
+![Creating a pipeline](/diagrams/demos/create.gif){.center .shadow}
 <center style="font-size:0.85em;font-style:italic;"></center>
 
 ### Testing a pipeline
 
-![Creating a pipeline](/diagrams/demos/test.gif){.center}
+![Creating a pipeline](/diagrams/demos/test.gif){.center .shadow}
 <center style="font-size:0.85em;font-style:italic;"></center>
 
 ### Pausing a pipeline
 
-![Creating a pipeline](/diagrams/demos/pause.gif){.center}
+![Creating a pipeline](/diagrams/demos/pause.gif){.center .shadow}
 <center style="font-size:0.85em;font-style:italic;"></center>
