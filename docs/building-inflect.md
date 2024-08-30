@@ -75,13 +75,13 @@ and then pass those events as requests to an HTTP server,
 The server then pulls the schema, transformations, and filters used by that pipeline, and executes every step of the pipeline, from incoming schema validation, to each transformation and filter, to finally outgoing schema validation. 
 After passing the test event through the pipeline, the server reports back to the client with the output of the pipeline, as well as information on what step the event failed or was filtered at.
 
-![Kafka Streams API Example](/diagrams/building/pipeline_test_page.png){.center .shadow}
+![Pipeline Test Page](/diagrams/building/pipeline_test_page.png){.center .shadow}
 <center style="font-size:0.85em;font-style:italic;">Inflect’s pipeline test page. Users can generate test events that conform to their schema and edit them in the UI</center>
 
-![Kafka Streams API Example](/diagrams/building/pipeline_test_successful.png){.center .shadow}
+![Pipeline Test Successful](/diagrams/building/pipeline_test_successful.png){.center .shadow}
 <center style="font-size:0.85em;font-style:italic;">Inflect’s pipeline test page, showing the results of testing a successful multi-step pipeline</center>
 
-![Kafka Streams API Example](/diagrams/building/pipeline_test_filtered.png){.center .shadow}
+![Pipeline Test Filtered](/diagrams/building/pipeline_test_filtered.png){.center .shadow}
 <center style="font-size:0.85em;font-style:italic;">Inflect’s pipeline test page, showing the results of an event being filtered during testing</center>
 
 ### Persisting Pipelines
@@ -96,7 +96,8 @@ a Postgres database,
 a server that communicates with the Kafka broker, the user’s Schema Registry, and the Postgres database; 
 and the stream processor itself, a Javascript application which performs stream processing on events from Kafka, independent of the server and client
 
-Inflect’s architecture up to this point
+![Architecture of a Single Inflect Instance](/diagrams/building/arch_single_instance.svg){.center}
+<center style="font-size:0.85em;font-style:italic;">Inflect’s architecture up to this point</center>
 
 ## Scaling our App
 ### Managing Event Data
@@ -128,9 +129,12 @@ Parallelization is the process of dividing a computational task into parts that 
 
 This is possible because of Kafka’s support for *consumer groups*, which are sets of consumers that each process a portion of the traffic consumed from a Kafka topic. 
 
-With a single consumer, all events in a topic are routed to that consumer
+![Single Consumer](/diagrams/building/single_consumer.svg){.center}
+<center style="font-size:0.85em;font-style:italic;">With a single consumer, all events in a topic are routed to that consumer</center>
 
-Multiple consumers in one consumer group consuming different events from the same topic
+
+![Consumer Groups](/diagrams/building/consumer_groups.svg){.center}
+<center style="font-size:0.85em;font-style:italic;">Multiple consumers in one consumer group consuming different events from the same topic</center>
 
 Kafka dynamically divides the event traffic between the consumers, and continually *rebalances* the consumer group when consumers are added or dropped. So, what we needed was some mechanism of running multiple event processors at once so as to handle multiple event streams from a Kafka topic at once.
 
@@ -156,7 +160,8 @@ Because Inflect tackles the use case where teams want control over their event p
 
 To deploy Inflect on Kubernetes, we containerized the core stream processor  with Docker to make it available as a template for easily deploying many instances of the app. When deployed, the current transformation pipelines are pulled from the PostgreSQL database, which is also deployed as a Kubernetes instance, and for each pipeline, a *deployment* is created, each with several *pods*, or replicas of the app running at the same time in its own environment. Kubernetes manages spinning up each of these instances automatically, making it simple to deploy many different pipelines at once in Inflect, and to have each pipeline’s processing work divided across multiple instances of the app. 
 
-Each Inflect transformation pipeline is deployed as a Kubernetes (k8s) Deployment, each of which is composed of several Pods that divide up the work of transforming events for the pipeline
+![Inflect Kubernetes Pods](/diagrams/building/kubernetes_deployments_pods.svg){.center}
+<center style="font-size:0.85em;font-style:italic;">Each Inflect transformation pipeline is deployed as a Kubernetes (k8s) Deployment, each of which is composed of several Pods that divide up the work of transforming events for the pipeline</center>
 
 Kubernetes provides self-healing mechanisms, automatically re-deploying pods that fail, as well as automatic horizontal scaling based on resource utilization or custom metrics. And for Inflect, because instances can be spun up or killed at will, Kubernetes is well suited for our use case where users want to create or edit pipelines mid-production without affecting other pipelines as they’re running.
 
@@ -168,19 +173,20 @@ To achieve dynamic scaling based on load, we implemented Kubernetes Event-Driven
 
 For our app, the metric that made the most sense as the trigger for auto-scaling was consumer lag, which represents a delay between when messages arrive in Kafka topics and when a consumer application consumes them. More lag means more events are sitting in the topic waiting to be consumed at any given time. 
 
+![KEDA monitoring lag](/diagrams/building/keda_low_load.svg){.center}
+<center style="font-size:0.85em;font-style:italic;">KEDA monitors consumer lag to determine if it needs to spawn more pods of an app</center>
 
-KEDA monitors consumer lag to determine if it needs to spawn more pods of an app
-
-KEDA spawns more instances of an app whenever consumer lag passes a certain threshold
-
+![KEDA responds to high load](/diagrams/building/keda_high_load.svg){.center}
+<center style="font-size:0.85em;font-style:italic;">KEDA spawns more instances of an app whenever consumer lag passes a certain threshold</center>
 
 By configuring KEDA to respond to changes in consumer lag, we enabled our system to automatically adapt to varying loads, increasing the number of app instances when load goes up and decreasing the number of instances when load goes down.
 
+![High load pods spawned](/diagrams/building/high_load_pods_spawned.svg){.center}
+<center style="font-size:0.85em;font-style:italic;">1. Auto-scaling triggered by an increase in event load</center>
 
-Auto-scaling triggered by an increase in event load
 
-
-Multiple instances of Inflect processing events from the same topic
+![High load pods ready](/diagrams/building/high_load_pods_ready.svg){.center}
+<center style="font-size:0.85em;font-style:italic;">2. Multiple instances of Inflect processing events from the same topic</center>
 
 With our system now scaling the number of app instances up and down with load, instances were frequently being spun up and killed. This auto-scaling behavior introduced two new issues. 
 
@@ -205,19 +211,22 @@ Prometheus is an open-source systems monitoring and alerting toolkit used to col
 Using Prometheus, each pod hosts an HTTP metrics server that exposes relevant data, including the number of events processed, the number of times events got routed to a DLQ or dropped, and the message processing duration in seconds. Prometheus periodically scrapes these metrics endpoints and makes the collected data available both through its browser-based user interface and through APIs that other system components can interact with. Users can then query and aggregate these metrics to evaluate the performance of the entire system, individual pipelines, or specific pods. 
 
 
-Prometheus pulls metrics from each Inflect pod
+![Prometheus scraping](/diagrams/building/prometheus_scraping.svg){.center}
+<center style="font-size:0.85em;font-style:italic;">Prometheus pulls metrics from each Inflect pod</center>
 
 For teams already using Grafana, a popular analytics and data visualization platform in other parts of their system, integrating these Prometheus metrics is straightforward. Users can incorporate the Inflect performance data into their existing Grafana dashboards by adding Prometheus as a data source, after which they can create dashboards and panels to visualize the data produced by Inflect, giving users of Inflect observability into the performance of the stream processors.
 
 ## Final Architecture
 ### Full Architecture
 
-Inflect’s architecture, demonstrating its various components and how they interact with each other
+![Full Architecture](/diagrams/building/full_architecture.svg){.center}
+<center style="font-size:0.85em;font-style:italic;">Inflect’s architecture, demonstrating its various components and how they interact with each other</center>
 
 
 ### Kubernetes Deployment
 
-Inflect’s Kubernetes cluster, demonstrating its various deployments and how they interact
+![Full Kubernetes Cluster](/diagrams/building/full_kubernetes_deployment.svg){.center}
+<center style="font-size:0.85em;font-style:italic;">Inflect’s Kubernetes cluster, demonstrating its various deployments and how they interact</center>
 
 Inflect’s Kubernetes cluster includes several components that work in tandem:
 One deployment for each pipeline, with each pipeline being composed of one or more pods, which are instances of the Inflect stream processing application

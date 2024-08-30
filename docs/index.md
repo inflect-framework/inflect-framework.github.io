@@ -17,13 +17,14 @@ hero:
       text: View on GitHub
       link: https://github.com/inflect-framework
 
+# Info Section
 info:
   items:
     - title: Intuitive Event Pipeline Management
       description: Inflect's dashboard simplifies authoring, testing, updating, and managing event transformation pipelines, reducing barriers to entry and streamlining microservice workflows
       image: /diagrams/home/dashboard.png
     - title: Automatic Scaling for High-Volume Processing
-      description: Inflect's automated Kubernetes deployment scales with event traffic. Each app instance is capable of processing over 40,000 events per second, making it well-suited for handling high volume data flows
+      description: Inflect's automated Kubernetes deployment scales with event traffic. Each app instance is capable of processing over 40,000 events per second, making it well-suited for high volume data flows
       image: /diagrams/home/deployment.png
     - title: JavaScript-Based Transformations
       description: Define transformations as Javascript functions, reducing boilerplate and accelerating development
