@@ -59,15 +59,10 @@ export default {
               { 
                 text: "Managing Pipelines", 
                 link: "/building-inflect#managing-pipelines",
-                collapsible: true,
-                collapsed: true,
-                items: [
-                  { text: "Authoring Pipelines", link: "/building-inflect#authoring-pipelines" },
-                  { text: "Testing Pipelines", link: "/building-inflect#testing-pipelines" },
-                  { text: "Persisting Pipelines", link: "/building-inflect#persisting-pipelines" },
-                  { text: "Application Architecture", link: "/building-inflect#application-architecture" }
-                ]
               },
+              { text: "Scaling our app", link: "/building-inflect#scaling-our-app" },
+              { text: "Assessing performance", link: "/building-inflect#assessing-performance" },
+              { text: "Final Architecture", link: "/building-inflect#final-architecture" },
             ]
         },
         { 
