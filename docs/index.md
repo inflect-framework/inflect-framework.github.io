@@ -88,6 +88,9 @@ head:
     tagline="Software Engineer"
     image="https://avatars.githubusercontent.com/u/95947317?v=4"
     link="https://www.linkedin.com/in/benhancock-dev/"
+    email="me@benhancock.dev"
+    github="https://github.com/benhancock"
+    linkedin="https://www.linkedin.com/in/benhancock-dev/"
   />
 
   <TeamMember 
@@ -95,6 +98,9 @@ head:
     tagline="Software Engineer"
     image="https://gravatar.com/avatar/ba3ab3db98d33b0944b95cb35389b5e5?size=256&cache=1724781517483"
     link="https://www.linkedin.com/in/christopheredouglass/"
+    email="cedouglass@gmail.com"
+    github="https://github.com/apopheny"
+    linkedin="https://www.linkedin.com/in/christopheredouglass/"
   />
 </div>
 
