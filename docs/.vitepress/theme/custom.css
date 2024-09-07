@@ -88,7 +88,6 @@ span.clip {
 
 .image-bg {
   background-image: var(--vp-home-hero-image-background-image);
-  background-size: 200% 200%;
   animation: gradientAnimation 8s ease infinite;
   position: relative;
 }
