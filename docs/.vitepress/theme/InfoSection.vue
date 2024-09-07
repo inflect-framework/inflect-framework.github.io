@@ -27,9 +27,8 @@
           </div>
         </div>
       </div>
-      <!-- New button div -->
       <div class="case-study-button-container">
-        <a href="/introduction" class="case-study-button">Read the Case Study</a>
+        <a href="/background#introduction" class="case-study-button">Read the Case Study</a>
       </div>
     </div>
   </div>
@@ -61,7 +60,6 @@ export default {
   margin-bottom: 2rem;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .info-item {
   display: flex;

@@ -12,7 +12,7 @@ hero:
   actions:
     - theme: brand
       text: Read the Case Study
-      link: '/introduction'
+      link: '/background#introduction'
     - theme: alt
       text: View on GitHub
       link: https://github.com/inflect-framework

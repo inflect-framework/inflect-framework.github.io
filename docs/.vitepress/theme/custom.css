@@ -10,19 +10,19 @@
   --vp-c-brand-dark: #ff622d;
   --vp-c-brand-darker: #e23c00;
   --vp-c-bg: #03091F;
-  --vp-c-bg-soft: #1A1F33;
+  --vp-c-bg-soft: #1a1f33ea;
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #32C580 20%, #0b8090);
   --vp-home-hero-image-background-image: 
-  radial-gradient(
-    ellipse 80% 80% at 60% 80%,
-    #10746fd6 45%,
-    #1dbf73ca 20%,
-    #168d5bc2 20%,
-    #0a2485 95%
-  );
+    radial-gradient(
+      ellipse 80% 80% at 60% 80%,
+      rgba(16, 116, 111, 0.7) 45%,
+      rgba(29, 110, 191, 0.6) 20%,
+      rgba(22, 141, 91, 0.682) 20%,
+      rgba(13, 42, 150, 0.8) 95%
+    );
   --vp-home-hero-image-filter: blur(44px);
-  --vp-sidebar-bg-color: #131728;
+  --vp-sidebar-bg-color: #1a1f33;
   --vp-c-brand-1: #32C580;
   --vp-button-brand-hover-bg: #28a56b;
   --vp-button-brand-text: rgb(255, 255, 255);
@@ -34,6 +34,8 @@
 
   --vp-font-family-mono: "Space Mono", Menlo, Monaco, Consolas, "Courier New",
     monospace;
+
+  --background-color: #03091F;
 }
 
 .custom-layout {
@@ -70,9 +72,45 @@ span.clip {
   font-size: 150%;
 }
 
+@media screen and (max-width: 767px) {
+  .image-bg {
+    width: 120% !important;
+    height: 70% !important;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .image-bg {
+    width: 120% !important;
+    height: 50% !important;
+  }
+}
+
 .image-bg {
-  width: 120% !important;
-  height: 50% !important;
+  background-image: var(--vp-home-hero-image-background-image);
+  background-size: 400% 400%;
+  animation: gradientAnimation 8s ease infinite;
+  position: relative;
+}
+
+.VPImage.image-src {
+  z-index: 1;
+  filter: 
+    drop-shadow(0 0 5px rgba(29, 191, 115, 0.207)) 
+    drop-shadow(0 0 10px rgba(29, 191, 115, 0.106)) 
+    drop-shadow(0 0 15px rgba(29, 191, 115, 0.129));
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .center {
@@ -83,4 +121,49 @@ span.clip {
 
 .shadow {
   box-shadow: 0 5px 30px rgba(51, 51, 51, 0.717);
+}
+
+.VPHome {
+  position: relative;
+  background-color: var(--background-color);
+}
+
+.VPHome::before {
+  content: "";
+  position: absolute;
+  top: 100vh;
+  left: 0;
+  right: 0;
+  height: 250vh;
+  background-image: 
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(20, 140, 126, 0.101) 10%,
+      rgba(35, 230, 175, 0.094) 30%,
+      rgba(26, 170, 151, 0.106) 50%,
+      rgba(14, 46, 160, 0.113) 70%,
+      transparent 100%
+    );
+  pointer-events: none;
+}
+
+@keyframes subtleGradientAnimation {
+  0% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.85;
+  }
+}
+
+.VPHome::before {
+  animation: subtleGradientAnimation 10s ease-in-out infinite;
+}
+
+div.info-section {
+  background-color: #03091f00 !important;
 }
