@@ -38,11 +38,11 @@ features:
   - icon: 🌟
     title: Introduction to Inflect
     details: Inflect at a high level
-    link: /introduction
+    link: /background#introduction
   - icon: 📚
     title: Background
     details: Microservices, Event-Driven Architectures, and Stream Processing
-    link: /background
+    link: /background#background
   - icon: 🛠️
     title: How We Built Inflect
     details: The challenges we faced, the decisions we made, and the tradeoffs we chose

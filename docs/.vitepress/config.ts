@@ -20,13 +20,13 @@ export default {
         collapsible: true,
         collapsed: true,
         items: [
-          { text: "Introduction", link: "/introduction", docFooter: {
+          { text: "Introduction", link: "/background#introduction", docFooter: {
             prev: true,
             next: true,
           },},
           { 
             text: "Background", 
-            link: "/background",
+            link: "/background#background",
             collapsible: true,
             collapsed: true,
             items: [
