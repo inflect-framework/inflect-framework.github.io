@@ -14,6 +14,10 @@ export default {
       { text: "Case Study", link: "/background#introduction" },
       { text: "Team", link: "/index#our-team" },
     ],
+    socialLinks: [
+      { icon: "github", link: "https://github.com/inflect-framework" },
+      { icon: "linkedin", link: "https://www.linkedin.com/company/inflect-framework" },
+    ],
     sidebar: [
       {
         text: "Case Study",

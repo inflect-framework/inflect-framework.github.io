@@ -93,6 +93,20 @@ span.clip {
   position: relative;
 }
 
+@supports (-webkit-appearance:none) and (stroke-color:transparent) {
+  @media screen and (min-width: 1024px) {
+    .image-bg {
+      background-size: 100% 100%;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .image-bg {
+      background-size: 140% 140%;
+    }
+  }
+}
+
 .VPImage.image-src {
   z-index: 1;
   filter: 
