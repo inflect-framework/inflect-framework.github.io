@@ -79,7 +79,7 @@ head:
 
 <InfoSection v-bind="$frontmatter.info" />
 
-<h2 class='centered centered-title'>Our Team</h2>
+<h2 class='centered centered-title' id="our-team">Our Team</h2>
 <p class='centered'>Inflect was created by a fully remote pair of engineers based in the US</p>
 
 <div class="team-container">
@@ -96,8 +96,6 @@ head:
     image="https://gravatar.com/avatar/ba3ab3db98d33b0944b95cb35389b5e5?size=256&cache=1724781517483"
     link="https://www.linkedin.com/in/christopheredouglass/"
   />
-
-  <!-- Add more TeamMember components for additional team members -->
 </div>
 
 <style>
@@ -120,7 +118,7 @@ head:
 }
 
 p.centered {
-  padding: 3rem;
+  padding-bottom: 3rem;
 }
 
 </style>

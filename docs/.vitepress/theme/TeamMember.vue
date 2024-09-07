@@ -1,7 +1,7 @@
 <template>
   <div class="team-member">
     <a :href="link" ><img :src="image" :alt="name" class="member-image"></a>
-    <h2>{{ name }}</h2>
+    <h3>{{ name }}</h3>
     <p>{{ tagline }}</p>
     <a :href="link" target="_blank" rel="noopener noreferrer" class="social">LinkedIn</a>
   </div>

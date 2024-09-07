@@ -11,8 +11,8 @@ export default {
     siteTitle: "Inflect",
     nav: [
       { text: "Home", link: "/index" },
-      { text: "Case Study", link: "/introduction" },
-      { text: "Team", link: "/team" },
+      { text: "Case Study", link: "/background#introduction" },
+      { text: "Team", link: "/index#our-team" },
     ],
     sidebar: [
       {
