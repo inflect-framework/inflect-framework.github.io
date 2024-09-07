@@ -4,14 +4,15 @@ export default {
   lang: 'en-US',
   cleanUrls: true,
   ignoreDeadLinks: true,
+  appearance: 'force-dark',
   
   themeConfig: {
     logo: "/logo.svg",
     siteTitle: "Inflect",
     nav: [
       { text: "Home", link: "/index" },
-      { text: "Case Study", link: "/introduction" },
-      { text: "Team", link: "/team" },
+      { text: "Case Study", link: "/background#introduction" },
+      { text: "Team", link: "/index#our-team" },
     ],
     sidebar: [
       {
@@ -19,13 +20,13 @@ export default {
         collapsible: true,
         collapsed: true,
         items: [
-          { text: "Introduction", link: "/introduction", docFooter: {
+          { text: "Introduction", link: "/background#introduction", docFooter: {
             prev: true,
             next: true,
           },},
           { 
             text: "Background", 
-            link: "/background",
+            link: "/background#background",
             collapsible: true,
             collapsed: true,
             items: [
@@ -58,15 +59,10 @@ export default {
               { 
                 text: "Managing Pipelines", 
                 link: "/building-inflect#managing-pipelines",
-                collapsible: true,
-                collapsed: true,
-                items: [
-                  { text: "Authoring Pipelines", link: "/building-inflect#authoring-pipelines" },
-                  { text: "Testing Pipelines", link: "/building-inflect#testing-pipelines" },
-                  { text: "Persisting Pipelines", link: "/building-inflect#persisting-pipelines" },
-                  { text: "Application Architecture", link: "/building-inflect#application-architecture" }
-                ]
               },
+              { text: "Scaling our app", link: "/building-inflect#scaling-our-app" },
+              { text: "Assessing performance", link: "/building-inflect#assessing-performance" },
+              { text: "Final Architecture", link: "/building-inflect#final-architecture" },
             ]
         },
         { 
