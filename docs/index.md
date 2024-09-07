@@ -119,6 +119,11 @@ head:
 
 p.centered {
   padding-bottom: 3rem;
+  text-align: center;
+}
+
+#our-team {
+  padding-top: 5rem;
 }
 
 </style>
