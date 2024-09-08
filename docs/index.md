@@ -77,6 +77,10 @@ head:
       href: logo.svg
 ---
 
+<div class='patterned-background top-pattern'></div>
+
+<div class='patterned-background middle-pattern'></div>
+
 <InfoSection v-bind="$frontmatter.info" />
 
 <h2 class='centered centered-title' id="our-team">Our Team</h2>
@@ -103,6 +107,8 @@ head:
     linkedin="https://www.linkedin.com/in/christopheredouglass/"
   />
 </div>
+
+<div class='patterned-background snap-to-bottom'></div>
 
 <style>
 .team-container {
