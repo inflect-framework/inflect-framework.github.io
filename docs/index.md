@@ -12,7 +12,7 @@ hero:
   actions:
     - theme: brand
       text: Read the Case Study
-      link: '/background#introduction'
+      link: "/background#introduction"
     - theme: alt
       text: View on GitHub
       link: https://github.com/inflect-framework
@@ -109,7 +109,7 @@ head:
     linkedin="https://www.linkedin.com/in/benhancock-dev/"
   />
 
-  <TeamMember 
+<TeamMember 
     name="Chris Douglass" 
     tagline="Software Engineer"
     image="https://gravatar.com/avatar/ba3ab3db98d33b0944b95cb35389b5e5?size=256&cache=1724781517483"
@@ -118,6 +118,7 @@ head:
     github="https://github.com/apopheny"
     linkedin="https://www.linkedin.com/in/christopheredouglass/"
   />
+
 </div>
 
 <div class='patterned-background snap-to-bottom'></div>

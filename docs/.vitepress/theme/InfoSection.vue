@@ -2,33 +2,41 @@
   <div class="info-section">
     <div class="container">
       <div v-if="items" class="info-items">
-        <div 
-          v-for="(item, index) in items" 
-          :key="item.title" 
+        <div
+          v-for="(item, index) in items"
+          :key="item.title"
           class="info-item-wrapper"
         >
-          <div 
-            class="info-item" 
-            :class="{ 'reverse': index % 2 !== 0 }" 
-          >
+          <div class="info-item" :class="{ reverse: index % 2 !== 0 }">
             <div class="text-content">
-              <h3 :style="{
-                color: 'transparent',
-                backgroundImage: '-webkit-linear-gradient(120deg, #3aee9a, #54C4B2)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                display: 'inline-block'
-              }">{{ item.title }}</h3>
+              <h3
+                :style="{
+                  color: 'transparent',
+                  backgroundImage:
+                    '-webkit-linear-gradient(120deg, #3aee9a, #54C4B2)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  display: 'inline-block',
+                }"
+              >
+                {{ item.title }}
+              </h3>
               <p>{{ item.description }}</p>
             </div>
             <div class="image-content">
-              <img :src="item.image" :alt="item.title" :style="{ border: index == 1 ? '10px solid #1F2430' : '' }">
+              <img
+                :src="item.image"
+                :alt="item.title"
+                :style="{ border: index == 1 ? '10px solid #1F2430' : '' }"
+              />
             </div>
           </div>
         </div>
       </div>
       <div class="case-study-button-container">
-        <a href="/background#introduction" class="case-study-button">Read the Case Study</a>
+        <a href="/background#introduction" class="case-study-button"
+          >Read the Case Study</a
+        >
       </div>
     </div>
   </div>
@@ -39,9 +47,9 @@ export default {
   props: {
     title: String,
     description: String,
-    items: Array
-  }
-}
+    items: Array,
+  },
+};
 </script>
 
 <style scoped>
@@ -52,7 +60,6 @@ export default {
 .container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 2rem;
 }
 
 .info-item-wrapper {
@@ -69,7 +76,8 @@ export default {
 .info-item.reverse {
   flex-direction: row-reverse;
 }
-.text-content, .image-content {
+.text-content,
+.image-content {
   flex: 1;
   padding: 1rem 2rem;
 }
@@ -103,16 +111,16 @@ img:hover {
   display: inline-block;
   padding: 0.75rem 1.5rem;
   background-color: #32c580b1;
-  color: #F7F7F7;
+  color: #f7f7f7;
   text-decoration: none;
   border-radius: 30px;
   font-weight: bold;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    background-color 0.3s ease;
 }
 .case-study-button:hover {
-  background-color: #45CA8Cda;
-  color: #F7F7F7;
+  background-color: #45ca8cda;
+  color: #f7f7f7;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease;
 }
@@ -127,11 +135,13 @@ img:hover {
 }
 
 @media (max-width: 768px) {
-  .info-item, .info-item.reverse {
+  .info-item,
+  .info-item.reverse {
     flex-direction: column;
     padding: 2rem;
   }
-  .text-content, .image-content {
+  .text-content,
+  .image-content {
     padding: 1rem 0;
   }
 }
