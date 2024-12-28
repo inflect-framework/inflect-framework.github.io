@@ -4,17 +4,17 @@ layout: home
 # Hero section
 hero:
   name: Inflect
-  text: Stateless event transformations for Kafka EDAs
+  text: Stateless Event Transformations, Simplified
   image:
     src: /logo-big.svg
     alt: Inflect logo
-  tagline: Inflect is an open-source stream processing framework for Kafka that simplifies stateless event transformations between microservices in an event-driven architecture
+  tagline: Inflect is an open-source stream processing framework for Kafka that streamlines stateless event transformations between microservices in an event-driven architecture
   actions:
     - theme: brand
       text: Read the Case Study
       link: "/background#introduction"
     - theme: alt
-      text: View on GitHub
+      text: Download on GitHub
       link: https://github.com/inflect-framework
 
 # Info Section
@@ -32,6 +32,8 @@ info:
     - title: Streamlined Event Testing
       description: Automatically generate test events based on your schema, edit them, and pass them through transformations before deploying them into production
       image: /diagrams/home/test-page.png
+    - title: Who is Inflect For?
+    - title: Comparison to Other Frameworks
 
 # Features section
 features:
@@ -95,8 +97,10 @@ head:
 
 <InfoSection v-bind="$frontmatter.info" />
 
+<div class='patterned-background use-case-pattern'></div>
+
 <h2 class='centered centered-title' id="our-team">Our Team</h2>
-<p class='centered'>Inflect was created by a fully remote pair of engineers based in the US</p>
+<p class='centered'>Inflect is built by a fully remote team of engineers based in the US</p>
 
 <div class="team-container">
   <TeamMember 
@@ -104,7 +108,7 @@ head:
     tagline="Software Engineer"
     image="https://avatars.githubusercontent.com/u/95947317?v=4"
     link="https://www.linkedin.com/in/benhancock-dev/"
-    email="me@benhancock.dev"
+    email="benhancock.dev@gmail.com"
     github="https://github.com/benhancock"
     linkedin="https://www.linkedin.com/in/benhancock-dev/"
   />
@@ -122,6 +126,10 @@ head:
 </div>
 
 <div class='patterned-background snap-to-bottom'></div>
+
+<div class='footer-notice'>
+<p>© Inflect 2025</p>
+</div>
 
 <style>
 .team-container {
@@ -175,6 +183,15 @@ p.centered {
 
 .VPFeature {
   border: none;
+}
+
+.footer-notice {
+  font-size: 0.8rem;
+  color: #888;
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  bottom: -270px;
 }
 
 </style>

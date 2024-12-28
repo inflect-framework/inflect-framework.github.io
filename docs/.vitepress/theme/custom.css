@@ -164,25 +164,7 @@ span.clip {
   background-color: var(--background-color);
 }
 
-.VPHome::before {
-  content: "";
-  position: absolute;
-  top: 100vh;
-  left: 0;
-  right: 0;
-  height: 250vh;
-  background-image: 
-    linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgba(20, 140, 126, 0.101) 10%,
-      rgba(35, 230, 175, 0.094) 30%,
-      rgba(26, 170, 151, 0.106) 50%,
-      rgba(14, 46, 160, 0.113) 70%,
-      transparent 100%
-    );
-  pointer-events: none;
-}
+
 
 @keyframes subtleGradientAnimation {
   0% {
@@ -241,6 +223,12 @@ div.info-section {
   .middle-pattern {
     margin-top: -580px;
   }
+
+
+  .use-case-pattern {
+    bottom: 36%;
+    z-index: -1;
+  }
   
   .VPHome {
     z-index: 1;
@@ -248,7 +236,7 @@ div.info-section {
   
   .snap-to-bottom {
     height: 800px;
-    bottom: -7%;
+    bottom: -5%;
   }
 }
 
@@ -282,5 +270,28 @@ div.info-section {
     background-color: #03091f;
     z-index: -2;
     overflow: clip;
+  }
+}
+
+
+@media screen and (max-width: 2324px) {
+  .VPHome::before {
+    content: "";
+    position: absolute;
+    top: 100vh;
+    left: 0;
+    right: 0;
+    height: 250vh;
+    background-image: 
+      linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(20, 140, 126, 0.06) 10%,
+        rgba(35, 230, 175, 0.054) 30%,
+        rgba(26, 170, 151, 0.096) 50%,
+        rgba(14, 46, 160, 0.073) 90%,
+        transparent 100%
+      );
+    pointer-events: none;
   }
 }
