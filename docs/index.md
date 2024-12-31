@@ -204,7 +204,7 @@ p.centered {
 }
 
 .VPHero .actions .VPButton.medium.none::before {
-  content: "Need to reshape a message as it moves between services? Inflect makes it easy ⚡";
+  content: "⚡ Need to reshape a message as it moves between services? Inflect makes it dead simple. ";
   position: absolute;
   z-index: 100;
   left: 100%;
@@ -212,8 +212,8 @@ p.centered {
   transform: translateY(-50%);
   padding: 8px 12px;
   background: linear-gradient(135deg,
-    rgba(50, 194, 204, 0.23),
-    rgba(59, 238, 154, 0.18)
+    rgba(59, 238, 154, 0.22),
+    rgba(59, 238, 154, 0.24)
   );
   backdrop-filter: blur(1.5px);
   color: white;
