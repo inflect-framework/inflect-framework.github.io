@@ -11,11 +11,13 @@ hero:
   tagline: Inflect is an open-source stream processing framework for Kafka that streamlines stateless event transformations between microservices in an event-driven architecture
   actions:
     - theme: brand
-      text: Read the Case Study
-      link: "/background#introduction"
-    - theme: alt
       text: Download on GitHub
       link: https://github.com/inflect-framework
+    - theme: alt
+      text: Read the Case Study
+      link: "/background#introduction"
+    - theme: none
+      text: Simply put?
 
 # Info Section
 info:
@@ -192,6 +194,57 @@ p.centered {
   position: absolute;
   width: 100%;
   bottom: -270px;
+}
+
+.VPHero .actions .VPButton.medium.none {
+  position: relative;
+  cursor: pointer;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.VPHero .actions .VPButton.medium.none::before {
+  content: "Need to reshape a message as it moves between services? Inflect makes it easy ⚡";
+  position: absolute;
+  z-index: 100;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 8px 12px;
+  background: linear-gradient(135deg,
+    rgba(50, 194, 204, 0.23),
+    rgba(59, 238, 154, 0.18)
+  );
+  backdrop-filter: blur(1.5px);
+  color: white;
+  font-size: 16px;
+  line-height: 1.5;
+  border-radius: 10px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.15s ease-out;
+  white-space: normal;
+  width: 400px;
+  pointer-events: none;
+  margin-left: 12px;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .VPHero .actions .VPButton.medium.none::before {
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    margin-left: 0;
+    margin-top: 12px;
+    width: 280px;
+    font-size: 15px;
+  }
+}
+
+.VPHero .actions .VPButton.medium.none:hover::before {
+  opacity: 1;
+  visibility: visible;
 }
 
 </style>
