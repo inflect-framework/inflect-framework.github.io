@@ -16,8 +16,6 @@ hero:
     - theme: alt
       text: Read the Case Study
       link: "/background#introduction"
-    - theme: none
-      text: Simply put?
 
 # Info Section
 info:
