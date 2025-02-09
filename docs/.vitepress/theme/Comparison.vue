@@ -149,11 +149,11 @@ export default {
           inflect: true,
         },
         {
-          name: "Mature and battle-tested",
-          kafka: true,
-          flink: true,
-          spark: true,
-          inflect: false,
+          name: "Low barrier to entry",
+          kafka: false,
+          flink: false,
+          spark: false,
+          inflect: true,
         },
       ],
     };
