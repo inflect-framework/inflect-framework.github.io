@@ -5,9 +5,6 @@ layout: home
 hero:
   name: Inflect
   text: Stateless Event Transformations, Simplified
-  image:
-    src: /logo-big.svg
-    alt: Inflect logo
   tagline: Inflect is an open-source stream processing framework for Kafka that streamlines stateless event transformations between microservices in an event-driven architecture
   actions:
     - theme: brand
