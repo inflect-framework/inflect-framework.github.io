@@ -87,12 +87,32 @@ span.clip {
   pointer-events: none;
 }
 
+@media screen and (min-width: 767px) {
+  .VPHero .name::before {
+    content: '';
+    position: absolute;
+    left: 23%;
+    top: 50%;
+    transform: translateY(-54%);
+    width: 65px;
+    height: 65px;
+    background-image: url('/logo.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .VPHero .name {
+    transform: translateX(30px);
+  }
+}
+
 @media screen and (min-width: 1024px) {
   @keyframes pulse {
     0% {
       filter: 
         drop-shadow(0 0 5px rgba(29, 191, 115, 0.207)) 
-        drop-shadow(0 0 10px rgba(29, 191, 115, 0.106)) 
+        drop-shadow(0 0 10px rgba(127, 143, 135, 0.106)) 
         drop-shadow(0 0 15px rgba(29, 191, 115, 0.129))
         brightness(1) contrast(1);
     }
@@ -194,6 +214,21 @@ div.info-section {
 @media screen and (max-width: 767px) {
   .VPHome {
     z-index: 1;
+  }
+
+  /* hotfix for horizontal overflow issue on mobile :P */
+  html, body {
+    overflow-x: hidden;
+  }
+  
+
+  .VPHero .text {
+    font-size: 40px !important;
+    line-height: 50px !important;
+  }
+
+  .who-is-inflect-for {
+    padding-bottom: 80px !important;
   }
   
   .snap-to-bottom {
